@@ -1,10 +1,12 @@
 package MooseX::Semantic::Role::RdfImport;
 use Moose::Role;
-use RDF::Trine;
+use RDF::Trine qw(statement);
 use Data::Dumper;
-use MooseX::Semantic::Types qw(TrineResource);
+use MooseX::Semantic::Types qw(TrineResource TrineModel);
 use Set::Object;
 use namespace::autoclean;
+use Log::Log4perl;
+my $logger = Log::Log4perl->get_logger(__PACKAGE__);
 
 with(
     'MooseX::Semantic::Role::Resource',
@@ -86,9 +88,38 @@ sub new_from_model {
     return $resource_obj;
 }
 
+sub new_from_string {
+    my ($cls, $model_string, $uri, %opts) = @_;
+    $opts{format} //= 'nquads';
+    $opts{base_uri} //= 'urn:none:';
+    my $model = RDF::Trine::Model->temporary_model;
+    my $parser = RDF::Trine::Parser->new($opts{format});
+    $parser->parse_into_model($opts{base_uri}, $model_string, $model);
+    return $cls->new_from_model($model, $uri);
+}
+
+=head2 get_instance_hash
+
+Creates a hash of attribute/value pairs that can be passed to $cls->new
+
+=cut
+
+sub get_instance_hash {
+    my ( $cls, $model, $uri, $unfinished_resources ) = @_;
+
+    my $resource = TrineResource->coerce( $uri );
+    $unfinished_resources = Set::Object->new unless $unfinished_resources;
+    $unfinished_resources->insert( $resource );
+    my $inst_hash        = $cls->_build_instance_hash($resource, $model, $unfinished_resources);
+    $inst_hash->{rdf_about} = $resource;
+
+    return $inst_hash;
+}
+
 sub _build_instance_hash {
     my $cls = shift;
     my ($resource, $model, $unfinished_resources) = @_;
+    $resource = TrineResource->coerce( $resource );
 
     # callback for the type hierarchy walking to find
     # the first thing that's a class and a Resource
@@ -110,15 +141,22 @@ sub _build_instance_hash {
             # skip attribute we can't import to (lack of uri)
             return 1 unless scalar $stash->{uris};
 
-            # retrieve nodes from model
-            my @nodes = $model->objects_for_predicate_list($resource, @{ $stash->{uris} });
 
-            # skip attribute if no values are to be set
-            return 1 unless scalar @nodes;
+            # warn Dumper $stash->{uris};
+            if ($stash->{uris}->[0]->as_string eq '<http://moosex-semantic.org/onto#rdf_graph>') {
+                $stash->{statement_iterator} = $model->get_statements(undef,undef,undef,$resource);
+            }
+            else {
+                # retrieve nodes from model
+                my @nodes = $model->objects_for_predicate_list($resource, @{ $stash->{uris} });
 
-            # stash nodes away for other callbacks
-            $stash->{nodes} = \@nodes;
-            $stash->{literal_nodes} = [ map {$_->literal_value} grep { $_->is_literal } @nodes ];
+                # skip attribute if no values are to be set
+                return 1 unless scalar @nodes;
+
+                # stash nodes away for other callbacks
+                $stash->{nodes} = \@nodes;
+                $stash->{literal_nodes} = [ map {$_->literal_value} grep { $_->is_literal } @nodes ];
+            }
 
             # *Don't* skip this attribute
             return undef;
@@ -132,6 +170,23 @@ sub _build_instance_hash {
             my ($attr, $stash) = @_;
             return unless $stash->{literal_nodes}->[0];
             $inst_hash->{$attr->name} = $stash->{literal_nodes};
+        },
+        model => sub {
+            my ($attr, $stash) = @_;
+
+            # support for MooseX::Semantic::Role::Graph
+            # push (@{$stash->{rdf_graph} = $) if $attr->name eq 'rdf_graph';
+            # warn Dumper $resource;
+            # warn Dumper "I LIVE";
+            my $graph_model = TrineModel->coerce;
+            # while (my $stmt = $model->get_statements(undef,undef,undef)) {
+            # warn Dumper $stash;
+            while (my $stmt = $stash->{statement_iterator}->next){
+                # warn Dumper $stmt;
+                $graph_model->add_statement(statement( $stmt->[0], $stmt->[1], $stmt->[2] ));
+            }
+            # warn Dumper $inst_hash;
+            $inst_hash->{$attr->name} = $graph_model;
         },
         resource => sub {
             my ($attr, $stash) = @_;
@@ -182,6 +237,14 @@ sub new_from_web {
 sub _instantiate_one_object {
     my ($cls, $model, $resource, $instance_class, $unfinished_resources) = @_;
     # warn Dumper [$unfinished_resources->elements];
+    # warn Dumper $resource;
+    unless ($instance_class) {
+        die "Can't instantiate $resource / $cls. Did you forget to load the type for this attribute TODO?";
+        # warn Dumper $model;
+        # warn Dumper $cls;
+        # warn Dumper $resource;
+        # die "DEATH";
+    }
     if (! $instance_class->does('MooseX::Semantic::Role::Resource')) {
         warn "Resource $resource can't be instantiated as $instance_class ($instance_class doesn't MooseX::Semantic::Role::Resource)";
         return;

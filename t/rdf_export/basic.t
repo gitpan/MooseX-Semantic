@@ -1,6 +1,7 @@
 use Test::More tests=>10;
 use Test::Moose;
-use RDF::Trine qw(blank);
+use Carp::Always;
+use RDF::Trine qw(blank literal iri statement);
 use Data::Dumper;
 use MooseX::Semantic::Test::Person;
 use File::Temp qw( tempfile );
@@ -74,7 +75,34 @@ sub basic_to_turtle {
     print $p->export_to_string(format=>'turtle');
 }
 
+sub model_export {
+    {
+        package My::Model::Person;
+        use Moose;
+        with qw(MooseX::Semantic::Role::RdfExport);
+        has bucket => (
+            traits => ['Semantic'],
+            is => 'rw',
+            isa => 'RDF::Trine::Model',
+            uri => 'http://xmlns.com/foaf/0.1/dataBucket',
+            uri_writer => ['http://myont.org/onto#name'],
+        );
+    }
+    my $dummy_model = RDF::Trine::Model->temporary_model;
+    $dummy_model->add_statement(statement(
+        iri('Someone'),
+        iri('is'),
+        literal('bored'),
+    ));
+    my $p = My::Model::Person->new(
+        rdf_about => 'http://myont.org/data/John',
+        bucket      => $dummy_model
+    );
+    print $p->export_to_string(format=>'turtle');
+}
+
 &basic_export;
 &basic_blank_node;
 &basic_to_turtle;
+&model_export;
 # done_testing;

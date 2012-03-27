@@ -4,7 +4,7 @@
       "konstantin baierer <kba@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112150",
+   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.120630",
    "license" : [
       "perl_5"
    ],
@@ -16,43 +16,45 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "LWP::Protocol::PSGI" : 0,
-            "Pod::Readme" : 0,
-            "Pod::Select" : 0,
+            "LWP::Protocol::PSGI" : "0",
+            "Pod::Readme" : "0",
+            "Pod::Select" : "0",
             "RDF::Endpoint" : "0.04",
-            "SUPER" : 0,
-            "String::Diff" : 0,
-            "Term::ANSIColor" : 0,
-            "YAML::XS" : 0
+            "RDF::Trine::Serializer::SparqlUpdate" : "0.0002",
+            "SUPER" : "0",
+            "String::Diff" : "0",
+            "Term::ANSIColor" : "0",
+            "YAML::XS" : "0"
          }
       },
       "configure" : {
          "requires" : {
             "Module::Build" : "0.38",
-            "Pod::Readme" : 0,
-            "Pod::Select" : 0
+            "Pod::Readme" : "0",
+            "Pod::Select" : "0"
          }
       },
       "runtime" : {
          "requires" : {
             "Data::UUID" : "1.217",
-            "File::Path" : 0,
+            "File::Path" : "0",
             "File::Slurp" : "9999.19",
-            "File::Temp" : 0,
-            "LWP::UserAgent" : 0,
+            "File::Temp" : "0",
+            "LWP::UserAgent" : "0",
             "Module::Load" : "0.18",
             "Moose" : "2.0",
             "MooseX::ClassAttribute" : "0.26",
+            "MooseX::HasDefaults" : "0.03",
             "MooseX::Types" : "0.30",
             "MooseX::Types::URI" : "0.03",
             "RDF::NS" : "20111124",
             "RDF::RDFa::Parser" : "1.096",
             "RDF::Trine" : "0.136",
-            "Scalar::Util" : 0,
+            "Scalar::Util" : "0",
             "Set::Object" : "1.28",
             "Try::Tiny" : "0.09",
-            "URI" : 0,
-            "namespace::clean" : 0
+            "URI" : "0",
+            "namespace::clean" : "0"
          }
       }
    },
@@ -63,10 +65,18 @@
       },
       "MooseX::Semantic" : {
          "file" : "lib/MooseX/Semantic.pm",
-         "version" : "0.001"
+         "version" : "0.003"
       },
       "MooseX::Semantic::Meta::Attribute::Trait" : {
          "file" : "lib/MooseX/Semantic/Meta/Attribute/Trait.pm",
+         "version" : 0
+      },
+      "MooseX::Semantic::Role::Graph" : {
+         "file" : "lib/MooseX/Semantic/Role/Graph.pm",
+         "version" : 0
+      },
+      "MooseX::Semantic::Role::PortableResource" : {
+         "file" : "lib/MooseX/Semantic/Role/PortableResource.pm",
          "version" : 0
       },
       "MooseX::Semantic::Role::RdfBackend" : {
@@ -113,6 +123,10 @@
          "file" : "lib/MooseX/Semantic/Test/MetaPerson.pm",
          "version" : 0
       },
+      "MooseX::Semantic::Test::ModelContainingPerson" : {
+         "file" : "lib/MooseX/Semantic/Test/ModelContainingPerson.pm",
+         "version" : 0
+      },
       "MooseX::Semantic::Test::Person" : {
          "file" : "lib/MooseX/Semantic/Test/Person.pm",
          "version" : 0
@@ -156,5 +170,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.001"
+   "version" : "0.003"
 }

@@ -69,7 +69,21 @@ sub symmetrical_property {
     # warn Dumper $alice_model_str;
 }
 
+sub import_instance_hash {
+    my $base_uri = 'http://tobyinkster.co.uk/#i';
+    my $test_model = RDF::Trine::Model->temporary_model;
+    RDF::Trine::Parser::Turtle->parse_file_into_model(
+        $base_uri,
+        't/data/toby_inkster.ttl',
+        $test_model,
+    );
+    my $hash = MooseX::Semantic::Test::Person->get_instance_hash( $test_model, $base_uri );
+    is(keys %{$hash}, 7, 'correct number of keys');
+    # warn Dumper $hash;
+}
+
 &import_from_ttl;
 &symmetrical_property;
+&import_instance_hash;
 # &import_from_web;
 done_testing;

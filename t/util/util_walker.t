@@ -57,5 +57,5 @@ sub class_name_finder {
 }
 
 
-&simple_type_walker
+&simple_type_walker;
 &class_name_finder;

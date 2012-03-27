@@ -103,9 +103,24 @@ sub export_to_model {
                 push (@{$stash->{uris}}, @{$attr->uri_writer}) if $attr->has_uri_writer;
                 return not $stash->{attr_val};
             },
+            model => sub {
+                my ($attr, $stash) = @_;
+                my $iter = $stash->{attr_val}->as_stream;
+                while (my $stmt = $iter->next) {
+                    # warn Dumper $stmt;
+                    if ($self->does('MooseX::Semantic::Role::Graph')) {
+                        $stmt->[3] = $self->rdf_about;
+                    }
+                    $model->add_statement($stmt);
+                }
+            },
             literal => sub {
                 my ($attr, $stash) = @_;
-                $self->_export_one_scalar( $model, $stash->{attr_val}, $_, $attr->rdf_lang, $attr->rdf_datatype, $opts{context})
+                my $val = $stash->{attr_val};
+                if ($attr->has_rdf_formatter) {
+                    $val = $attr->rdf_formatter->( $val );
+                }
+                $self->_export_one_scalar( $model, $val, $_, $attr->rdf_lang, $attr->rdf_datatype, $opts{context})
                     for (@{ $stash->{uris} });
             },
             resource => sub {
@@ -116,6 +131,9 @@ sub export_to_model {
             literal_in_array => sub {
                 my ($attr, $stash) = @_;
                 for my $subval ( @{$stash->{attr_val}} ) {
+                    if ($attr->has_rdf_formatter) {
+                        $subval = $attr->rdf_formatter->( $subval );
+                    }
                     $self->_export_one_scalar($model, $subval, $_, $attr->rdf_lang, $attr->rdf_datatype, $opts{context} )
                         for (@{ $stash->{uris} });
                 }
@@ -135,18 +153,28 @@ sub _export_one_object {
     my $self = shift;
     my ($model,  $single_val, $rel, $context) = @_;
     if (blessed $single_val) {
-        if ($single_val->does('MooseX::Semantic::Role::RdfExport')) {
+        # warn Dumper ref $single_val;
+        if (ref $single_val eq 'RDF::Trine::Node::Resource' ) {
+            $model->add_statement(RDF::Trine::Statement->new(
+                    $self->rdf_about,
+                    $rel,
+                    $single_val,
+                ),
+                $context,
+            );
+        }
+        elsif ($single_val->does('MooseX::Semantic::Role::RdfExport')) {
             #
             # Here's the recursion
             #
             $single_val->export_to_model($model);
             $model->add_statement(RDF::Trine::Statement->new(
-                $self->rdf_about,
-                $rel,
-                $single_val->rdf_about
-            ),
-            $context,
-        );
+                    $self->rdf_about,
+                    $rel,
+                    $single_val->rdf_about
+                ),
+                $context,
+            );
         } else {
             warn "Can't export this object since it doesn't MooseX::Semantic::Role::RdfExport";
         }
@@ -158,6 +186,7 @@ sub _export_one_object {
 sub _export_one_scalar {
     my $self = shift;
     my ($model,  $val, $rel, $lang, $datatype, $context) = @_;
+    # warn Dumper \@_;
     my $lit;
     if ($lang) {
         $lit = RDF::Trine::Node::Literal->new($val, $lang);
@@ -179,7 +208,7 @@ sub _get_serializer{
     my $self = shift;
     my (%opts) = @_;
     # warn Dumper keys %opts;
-    my $format =  $opts{format} || 'turtle';
+    my $format =  $opts{format} || 'nquads';
     my $options = $opts{serializer_opts} || {};
     my $serializer = RDF::Trine::Serializer->new($format, %{$options} );
     return $serializer;
@@ -249,7 +278,7 @@ sub export_to_web {
     
     my $req = HTTP::Request->new(POST => $uri);
     $req->header(Content_Type => $type);
-    my $model = $self->export_to_model($opts{model});
+    my $model = $self->export_to_model($opts{model}, %opts);
     $req->content( $ser->serialize_model_to_string($model) );
     
     my $res = $self->_user_agent->request($req);
@@ -265,6 +294,7 @@ TODO
 =cut
 
 sub export_to_hash {
+    # warn Dumper [@_];<>;
     my ($self, %opts) = @_;
     my $self_hash = {};
     $opts{max_recursion} //= 0;
@@ -280,6 +310,10 @@ sub export_to_hash {
         literal => sub {
             my ($attr, $stash) = @_;
             $self->_attr_to_hash( $self_hash, $attr, $stash->{attr_val}, %opts);
+        },
+        model => sub {
+            my ($attr, $stash) = @_;
+            $self_hash->{$attr->name} = $self->{$attr->name}->as_hashref;
         },
         resource => sub {
             my ($attr, $stash) = @_;
@@ -339,7 +373,7 @@ sub rdf_serialize {
 
 =item format
 
-Format string to be passed to L<RDF::Trine::Parser>, e.g. C<turtle> or C<rdfxml>.
+Format string to be passed to L<RDF::Trine::Parser>, e.g. C<turtle> or C<rdfxml>. Defaults to C<nquads>.
 
 =item serializer_opts
 

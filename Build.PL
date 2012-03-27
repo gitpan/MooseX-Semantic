@@ -46,9 +46,10 @@ my $build = $class->new(
         # 'MooseX::Unique' => '0.005',
         'LWP::UserAgent' => 0,
         'Scalar::Util' => 0,
-        'Set::Object' => 1.28,
+        'Set::Object' => '1.28',
         'URI' => 0,
         'RDF::NS' => '20111124',
+        'MooseX::HasDefaults' => '0.03',
 
         # 'perl'          => '5.6.1',
         # 'Some::Module'  => '1.23',
@@ -63,6 +64,7 @@ my $build = $class->new(
         'LWP::Protocol::PSGI' => 0,
         'Pod::Readme' => 0,
         'Pod::Select' => 0,
+        'RDF::Trine::Serializer::SparqlUpdate' => '0.0002',
     },
     configure_requires => {
         'Pod::Readme' => 0,

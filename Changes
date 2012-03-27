@@ -1,0 +1,2 @@
+0.002 Wed Feb 22 17:53:04 CET 2012
+    * added 'get_instance_hash' to RdfImport (usecase: Config singletons)

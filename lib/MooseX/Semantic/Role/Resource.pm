@@ -41,10 +41,30 @@ has rdf_about => (
     lazy => 1,
     builder => '_build_rdf_about',
     handles => [qw( is_blank is_resource )],
+    trigger => sub {
+        my $self = shift;
+        $self->_is_auto_generated(undef);
+    },
 );
 sub _build_rdf_about {
+    my $self = shift;
     # XXX should Resources be by default blank nodes or have a UUID URI?
+    $self->_is_auto_generated(1);
     TrineResource->coerce(sprintf('urn:uuid:%s', Data::UUID->new->create_str));
+}
+
+has _is_auto_generated => (
+    is => 'rw',
+    isa => 'Bool',
+    init_arg => undef,
+    default => 0,
+    lazy => 1,
+);
+sub is_auto_generated {
+    my $self = shift;
+    # make sure rdf_about has been initialized lazily
+    $self->rdf_about;
+    return $self->_is_auto_generated;
 }
 
 1;
@@ -60,6 +80,13 @@ Delegation to C<RDF::Trine::Node>. Returns a true value if the C<rdf_about> node
 =head2 C<is_resource>
 
 Delegation to C<RDF::Trine::Node>. Returns a true value if the C<rdf_about> node is a resource node.
+
+=cut
+
+=head2 C<is_auto_generated>
+
+Returns true value if the 'rdf_about' attribute was aut-generated, false if it
+has been explicitly set (at constructor time or using the 'rdf_about' accessor)
 
 =cut
 

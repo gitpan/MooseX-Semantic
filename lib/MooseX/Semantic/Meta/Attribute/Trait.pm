@@ -2,7 +2,7 @@ package MooseX::Semantic::Meta::Attribute::Trait;
 use Moose::Role;
 use MooseX::Semantic::Types qw(TrineResource ArrayOfTrineResources);
 use Data::Dumper;
-
+with ( 'MooseX::HasDefaults::Meta::IsRW' );
 =head1 NAME
 
 MooseX::Semantic::Meta::Attribute::Trait - Attribute trait for semantic attributes
@@ -28,6 +28,12 @@ MooseX::Semantic::Meta::Attribute::Trait - Attribute trait for semantic attribut
     );
 
 =cut
+
+=head1 DESCRIPTION
+
+Attributes that apply the C<Semantic> trait can be extended using the attributes listed below.
+
+By default, all Semantic attributes are read-write, i.e. C<is => 'rw'>.
 
 =head1 ATTRIBUTES
 
@@ -124,6 +130,36 @@ has rdf_lang => (
 #     isa => 'Str',
 #     predicate => 'has_rdfs_comment',
 # );
+
+=head2 rdf_formatter
+
+CodeRef of a function for coercing the value to a RDF literal. Defaults to the identity function.
+
+=cut
+
+has rdf_formatter => (
+    is => 'rw',
+    isa => 'CodeRef',
+    predicate => 'has_rdf_formatter',
+    # default => sub { sub{ return $_[0] }},
+);
+
+=head2 rdf_parser
+
+CodeRef of a function for parsing the literal value before importing this statement. Defaults to the identity function.
+
+=cut
+
+has rdf_parser => (
+    is => 'rw',
+    isa => 'CodeRef',
+    default => sub {sub{ return $_[0] }},
+);
+
+has 'is' => (
+    is => 'rw',
+    default => 'rw',
+);
 
 1;
 =head1 AUTHOR

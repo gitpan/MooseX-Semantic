@@ -15,3 +15,11 @@
 _:b1
     a foaf:Person ;
     foaf:name "Bob" .
+
+<alice-inline>
+    a foaf:person ;
+    foaf:name "Alice Inline" ;
+    foaf:knows [
+        a foaf:person ;
+        foaf:name "Bob Inline" 
+    ] .
