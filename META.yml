@@ -3,6 +3,9 @@ abstract: 'Semantic extensions to Moose'
 author:
   - 'konstantin baierer <kba@cpan.org>'
 build_requires:
+  Carp::Always: 0
+  Data::Printer: 0
+  Devel::PartialDump: 0
   LWP::Protocol::PSGI: 0
   Pod::Readme: 0
   Pod::Select: 0
@@ -29,7 +32,7 @@ provides:
     version: 0
   MooseX::Semantic:
     file: lib/MooseX/Semantic.pm
-    version: 0.003
+    version: 0.004
   MooseX::Semantic::Meta::Attribute::Trait:
     file: lib/MooseX/Semantic/Meta/Attribute/Trait.pm
     version: 0
@@ -103,6 +106,7 @@ provides:
     file: lib/MooseX/Semantic/Util/ValueHeuristics.pm
     version: 0
 requires:
+  Data::Printer: 0
   Data::UUID: 1.217
   File::Path: 0
   File::Slurp: 9999.19
@@ -124,4 +128,4 @@ requires:
   namespace::clean: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.003
+version: 0.004

@@ -1,5 +1,6 @@
 use Test::More tests=>4;
 use Test::Moose;
+use RDF::Trine ();
 use RDF::Trine::Namespace qw(rdf);
 use Data::Dumper;
 use MooseX::Semantic::Test qw(ser ser_dump diff_models);

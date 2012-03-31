@@ -48,6 +48,7 @@ my $build = $class->new(
         'Scalar::Util' => 0,
         'Set::Object' => '1.28',
         'URI' => 0,
+        'Data::Printer' => 0,
         'RDF::NS' => '20111124',
         'MooseX::HasDefaults' => '0.03',
 
@@ -57,6 +58,9 @@ my $build = $class->new(
     },
     build_requires => {
         'String::Diff' => 0,
+        'Carp::Always' => 0,
+        'Data::Printer' => 0,
+        'Devel::PartialDump' => 0,
         'Term::ANSIColor' => 0,
         'RDF::Endpoint' => '0.04',
         'SUPER' => 0,

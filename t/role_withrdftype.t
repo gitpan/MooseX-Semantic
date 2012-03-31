@@ -1,6 +1,6 @@
 use Test::More;
 use Test::Moose;
-use Devel::PartialDump qw(warn);
+# use Devel::PartialDump qw(warn);
 use MooseX::Semantic::Test::Person;
 use Data::Dumper;
 

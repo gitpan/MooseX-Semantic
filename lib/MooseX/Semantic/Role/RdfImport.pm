@@ -225,8 +225,6 @@ sub new_from_web {
     my $cls = shift;
     my ($uri) = @_;
 
-    # my $rdfa = RDF::RDFa::Parser->new_from_url($uri);
-    # my $model = $rdfa->graph;
     my $model = RDF::Trine::Model->temporary_model;
     RDF::Trine::Parser->parse_url_into_model( $uri, $model );
     return $cls->new_from_model( $model, $uri );

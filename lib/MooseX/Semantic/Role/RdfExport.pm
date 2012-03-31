@@ -8,12 +8,15 @@ use HTTP::Headers;
 use HTTP::Request;
 use Scalar::Util qw(blessed);
 use MooseX::Semantic::Types qw( TrineLiteral);
+use Log::Log4perl;
 use Data::Dumper;
 
 with (
     'MooseX::Semantic::Role::Resource',
     'MooseX::Semantic::Util::TypeConstraintWalker',
 );
+
+my $logger = Log::Log4perl->get_logger('moosex.semantic.rdfexport');
 
 =head1 NAME
 
@@ -176,7 +179,7 @@ sub _export_one_object {
                 $context,
             );
         } else {
-            warn "Can't export this object since it doesn't MooseX::Semantic::Role::RdfExport";
+            $logger->error( "Can't export this object since it doesn't MooseX::Semantic::Role::RdfExport: " . Dumper($single_val));
         }
     }
     else {

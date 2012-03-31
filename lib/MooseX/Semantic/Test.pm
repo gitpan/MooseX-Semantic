@@ -1,5 +1,5 @@
 package MooseX::Semantic::Test;
-use RDF::Trine;
+use RDF::Trine ();
 use Term::ANSIColor;
 use String::Diff;
 use Data::Dumper;

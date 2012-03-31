@@ -33,7 +33,6 @@ META.yml
 par-package.sh
 README
 README.pod
-session.vim
 t/closure.t
 t/config/rdf_endpoint.yaml
 t/data/blank_node_01.ttl
@@ -69,3 +68,4 @@ t/util/schema_import/dynamic_class.t
 t/util/schema_import/from_foaf.t
 t/util/schema_import/from_moose_ttl.t
 t/util/util_walker.t
+TODO

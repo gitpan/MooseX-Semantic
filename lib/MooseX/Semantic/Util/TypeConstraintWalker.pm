@@ -185,7 +185,6 @@ sub _walk_attributes{
         }
         elsif ($self->_find_parent_type($attr->type_constraint, 'ArrayRef')) {
             if ( ! $attr_type->can('type_parameter')) {
-                warn Dumper "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
                 # warn Dumper ref $attr_type;
                 # p $attr_type;
                 $callback_name = 'literal_in_array';

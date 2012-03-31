@@ -5,7 +5,10 @@ WriteMakefile
   'NAME' => 'MooseX::Semantic',
   'VERSION_FROM' => 'lib/MooseX/Semantic.pm',
   'PREREQ_PM' => {
+                   'Carp::Always' => 0,
+                   'Data::Printer' => 0,
                    'Data::UUID' => '1.217',
+                   'Devel::PartialDump' => 0,
                    'File::Path' => 0,
                    'File::Slurp' => '9999.19',
                    'File::Temp' => 0,
@@ -38,7 +41,7 @@ WriteMakefile
   'EXE_FILES' => [],
   'PL_FILES' => {},
   'test' => {
-              'TESTS' => 't/*.t t/scripts/*.t t/rdf_export/*.t t/util/*.t t/util/schema_import/*.t t/config/*.t t/trait_semantic/*.t t/data/*.t t/data/ontologies/*.t t/rdf_backend/*.t t/rdf_import/*.t'
+              'TESTS' => 't/*.t t/config/*.t t/data/*.t t/data/ontologies/*.t t/rdf_backend/*.t t/rdf_export/*.t t/rdf_import/*.t t/trait_semantic/*.t t/util/*.t t/util/schema_import/*.t'
             }
 )
 ;
