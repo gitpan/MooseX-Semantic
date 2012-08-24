@@ -37,6 +37,7 @@ my $build = $class->new(
         'File::Path' => 0,
         'File::Temp' => 0,,
         'File::Slurp' => '9999.19',
+        'MooseX::Role::Parameterized' => 0,
         'RDF::RDFa::Parser' => '1.096',
         'Module::Load' => '0.18',
         'namespace::clean' => 0,
@@ -51,6 +52,9 @@ my $build = $class->new(
         'Data::Printer' => 0,
         'RDF::NS' => '20111124',
         'MooseX::HasDefaults' => '0.03',
+        'Sort::Naturally' => 0,
+        'MooseX::Role::Parameterized'=> 0,
+
 
         # 'perl'          => '5.6.1',
         # 'Some::Module'  => '1.23',

@@ -63,11 +63,15 @@ has rdf_graph => (
 
 =item add_statement
 
+=item get_statements
+
 =back
 
 =head3 add_statement_smartly
 
 More DWIMmy version of RDF::Trine::Model->add_statmeent
+
+WARNING: Don't use this
 
 =cut
 

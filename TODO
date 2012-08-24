@@ -1,3 +1,8 @@
+Mon Jun  4 01:10:53 CEST 2012
+-----------------------------
+* Interesting paper from ESWC2012 about object-oriented class instantiation
+  strategies from ontology data (http://www.springerlink.com/content/gt857662n3274882, DOI: 10.1007/978-3-642-30284-8_51 )
+
 Tue Mar 27 02:57:43 CEST 2012
 -----------------------------
 * A meta-attribute 'inverse' to specify that $self->rdf_about should be the

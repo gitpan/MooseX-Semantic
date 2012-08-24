@@ -143,7 +143,7 @@ sub _build_instance_hash {
 
 
             # warn Dumper $stash->{uris};
-            if ($stash->{uris}->[0]->as_string eq '<http://moosex-semantic.org/onto#rdf_graph>') {
+            if ($stash->{uris}->[0] && $stash->{uris}->[0]->as_string eq '<http://moosex-semantic.org/onto#rdf_graph>') {
                 $stash->{statement_iterator} = $model->get_statements(undef,undef,undef,$resource);
             }
             else {

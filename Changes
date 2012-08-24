@@ -1,3 +1,5 @@
+0.004	2012-04-06
+    * Missing dependencies (MXR::Parametrized, Sort::Naturally)
 0.004   2012-03-31
     * fixed some tests
     * missing requirements

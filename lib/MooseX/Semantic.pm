@@ -1,6 +1,6 @@
 package MooseX::Semantic;
 BEGIN { $MooseX::Semantic::AUTHORITY = 'cpan:KBA'; }
-BEGIN { $MooseX::Semantic::VERSION = '0.004'; }
+our $VERSION = '0.005';
 
 1;
 

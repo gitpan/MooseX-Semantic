@@ -26,13 +26,15 @@ lib/MooseX/Semantic/Util/SchemaImport/Attribute.pm
 lib/MooseX/Semantic/Util/SchemaImport/Class.pm
 lib/MooseX/Semantic/Util/TypeConstraintWalker.pm
 lib/MooseX/Semantic/Util/ValueHeuristics.pm
+literature/moosex-semantic.bib
 Makefile.PL
-MANIFEST			This list of files
+MANIFEST
 META.json
 META.yml
 par-package.sh
 README
 README.pod
+session.vim
 t/closure.t
 t/config/rdf_endpoint.yaml
 t/data/blank_node_01.ttl
@@ -40,6 +42,7 @@ t/data/multiple_persons.ttl
 t/data/ontologies/foaf.rdf
 t/data/ontologies/nfo_data.rdfs
 t/data/person_moose_definition.ttl
+t/data/semantic_moose.sqlite
 t/data/symmetrical_property.ttl
 t/data/toby_inkster.ttl
 t/rdf_backend/role_rdfbackend.t
@@ -59,8 +62,6 @@ t/rdf_type.t
 t/role_obsolescence.t
 t/role_withrdftype.t
 t/sparql_serializer.t
-t/temp.t
-t/test.pl
 t/trait_semantic/trait.t
 t/util/coercions.t
 t/util/schema_export.t

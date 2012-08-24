@@ -20,7 +20,7 @@ configure_requires:
   Pod::Readme: 0
   Pod::Select: 0
 dynamic_config: 1
-generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.120630'
+generated_by: 'Module::Build version 0.3901, CPAN::Meta::Converter version 2.120630'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -32,7 +32,7 @@ provides:
     version: 0
   MooseX::Semantic:
     file: lib/MooseX/Semantic.pm
-    version: 0.004
+    version: 0.005
   MooseX::Semantic::Meta::Attribute::Trait:
     file: lib/MooseX/Semantic/Meta/Attribute/Trait.pm
     version: 0
@@ -116,6 +116,7 @@ requires:
   Moose: 2.0
   MooseX::ClassAttribute: 0.26
   MooseX::HasDefaults: 0.03
+  MooseX::Role::Parameterized: 0
   MooseX::Types: 0.30
   MooseX::Types::URI: 0.03
   RDF::NS: 20111124
@@ -123,9 +124,10 @@ requires:
   RDF::Trine: 0.136
   Scalar::Util: 0
   Set::Object: 1.28
+  Sort::Naturally: 0
   Try::Tiny: 0.09
   URI: 0
   namespace::clean: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.004
+version: 0.005

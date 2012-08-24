@@ -7,16 +7,13 @@ use LWP::UserAgent;
 use HTTP::Headers;
 use HTTP::Request;
 use Scalar::Util qw(blessed);
-use MooseX::Semantic::Types qw( TrineLiteral);
-use Log::Log4perl;
+use MooseX::Semantic::Types qw(TrineLiteral);
 use Data::Dumper;
 
 with (
     'MooseX::Semantic::Role::Resource',
     'MooseX::Semantic::Util::TypeConstraintWalker',
 );
-
-my $logger = Log::Log4perl->get_logger('moosex.semantic.rdfexport');
 
 =head1 NAME
 
@@ -86,6 +83,9 @@ sub export_to_model {
         # warn "No model supplied, create temporary model";
         $model = RDF::Trine::Model->temporary_model;
     }
+
+    # BUG investigate TODO
+    $opts{context} = $self->rdf_about if ($self->does('MooseX::Semantic::Role::Graph')) ;
 
     # TODO should be moved to MooseX::Semantic::Role::WithRdfType
     # rdf:type
@@ -179,7 +179,7 @@ sub _export_one_object {
                 $context,
             );
         } else {
-            $logger->error( "Can't export this object since it doesn't MooseX::Semantic::Role::RdfExport: " . Dumper($single_val));
+            warn "Can't export this object since it doesn't MooseX::Semantic::Role::RdfExport";
         }
     }
     else {
