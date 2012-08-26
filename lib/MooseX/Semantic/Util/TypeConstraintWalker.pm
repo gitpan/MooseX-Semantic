@@ -135,7 +135,7 @@ sub _walk_attributes{
             # warn Dumper $attr_name;
             # warn Dumper ref $attr_type;
             $attr_type = $attr_type->__type_constraint->parent;
-            # p $attr_type;
+#            p $attr_type;
         }
         # else {
         #     # p $attr_name;
@@ -189,6 +189,11 @@ sub _walk_attributes{
                 # p $attr_type;
                 $callback_name = 'literal_in_array';
             }
+            elsif ( $attr_type->type_parameter =~ 'Literal' ) {
+                # warn Dumper ref $attr_type;
+                # p $attr_type;
+                $callback_name = 'literal_in_array';
+            }
             elsif ( $self->_find_parent_type( $attr_type->type_parameter, 'Object' ) 
             or      $self->_find_parent_type( $attr_type->type_parameter, 'ClassName' ) ) 
             {
@@ -199,6 +204,10 @@ sub _walk_attributes{
             or      $self->_find_parent_type( $attr_type->type_parameter, 'Bool' ))
             {
                 $callback_name = 'literal_in_array';
+            }
+            else {
+                warn "Can't handle this ArrayRef: " . $attr_type;
+                warn Dumper ref $attr_type;
             }
         }
         else {

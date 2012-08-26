@@ -32,7 +32,7 @@ provides:
     version: 0
   MooseX::Semantic:
     file: lib/MooseX/Semantic.pm
-    version: 0.005
+    version: 0.006
   MooseX::Semantic::Meta::Attribute::Trait:
     file: lib/MooseX/Semantic/Meta/Attribute/Trait.pm
     version: 0
@@ -130,4 +130,4 @@ requires:
   namespace::clean: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.005
+version: 0.006

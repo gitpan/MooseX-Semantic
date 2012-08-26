@@ -43,7 +43,7 @@ WriteMakefile
   'EXE_FILES' => [],
   'PL_FILES' => {},
   'test' => {
-              'TESTS' => 't/*.t t/config/*.t t/data/*.t t/data/ontologies/*.t t/rdf_backend/*.t t/rdf_export/*.t t/rdf_import/*.t t/trait_semantic/*.t t/util/*.t t/util/schema_import/*.t'
+              'TESTS' => 't/*.t t/config/*.t t/data/*.t t/data/ontologies/*.t t/rdf_backend/*.t t/rdf_export/*.t t/rdf_import/*.t t/trait_semantic/*.t t/types/*.t t/util/*.t t/util/schema_import/*.t'
             }
 )
 ;

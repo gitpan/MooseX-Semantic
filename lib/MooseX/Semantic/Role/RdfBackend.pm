@@ -93,13 +93,9 @@ sub store {
 
 =over 4
 
-=item L<MooseX::Semantic::Role::Resource>
-
 =item L<MooseX::Semantic::Role::WithRdfType>
 
-=item L<MooseX::Semantic::Role::RdfImport>
-
-=item L<MooseX::Semantic::Role::RdfExport>
+=item L<MooseX::Semantic::Role::Resource>
 
 =back
 

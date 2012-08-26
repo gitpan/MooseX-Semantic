@@ -63,6 +63,7 @@ t/role_obsolescence.t
 t/role_withrdftype.t
 t/sparql_serializer.t
 t/trait_semantic/trait.t
+t/types/array_of_stuff.t
 t/util/coercions.t
 t/util/schema_export.t
 t/util/schema_import/dynamic_class.t

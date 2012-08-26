@@ -10,11 +10,14 @@ use MooseX::Types -declare => [qw(
     TrineModel
     TrineLiteral
     TrineStore
+
     TrineLiteralOrTrineResorce
     TrineBlankOrUndef 
+
     ArrayOfTrineResources
     ArrayOfTrineNodes
     ArrayOfTrineLiterals
+
     HashOfTrineResources
     HashOfTrineNodes
     HashOfTrineLiterals
@@ -55,9 +58,10 @@ coerce( TrineLiteral,
     from Bool, via { RDF::Trine::Node::Literal->new($_, undef, $xsd->boolean); },
     from Num, via { RDF::Trine::Node::Literal->new($_, undef, $xsd->numeric); },
     from Str, via { RDF::Trine::Node::Literal->new($_, undef, $xsd->string); },
+    from Value, via { RDF::Trine::Node::Literal->new($_); },
 );
 coerce( ArrayOfTrineLiterals,
-    from ArrayRef[Value], via { my $u = $_; [map {TrineLiteral->coerce($_)} @$u] },
+    from ArrayRef, via { my $u = $_; [map {TrineLiteral->coerce($_)} @$u] },
 );
 
 

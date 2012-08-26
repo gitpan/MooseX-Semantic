@@ -1,3 +1,7 @@
+Sun Aug 26 22:16:56 CEST 2012
+-----------------------------
+* Export should take Trine::Literals as Array Elements into account
+
 Mon Jun  4 01:10:53 CEST 2012
 -----------------------------
 * Interesting paper from ESWC2012 about object-oriented class instantiation
